@@ -3,44 +3,41 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.banco;
-
+import java.util.LinkedList;
+import java.util.Queue;
 /**
  *
  * @author josue
  */
 public class Cola {
-    private int[] cola;
-    private int inicio;
-    private int fin;
+    private Queue<Cliente> clientes;
     private int capacidad;
 
     public Cola(int capacidad) {
-        this.cola = new int[capacidad];
-        this.inicio = 0;
-        this.fin = 0;
         this.capacidad = capacidad;
+        clientes = new LinkedList<>();
     }
 
-    public void agregarCliente() {
-        if ((fin + 1) % capacidad == inicio) {
-            System.out.println("La cola esta llena");
+    public void agregarCliente(Cliente cliente) {
+        if (clientes.size() < capacidad) {
+            clientes.add(cliente);
         } else {
-            cola[fin] = 1;
-            fin = (fin + 1) % capacidad;
-            System.out.println("Cliente agregado a la cola");
-        }
-    }
-
-    public void atenderCliente() {
-        if (estaVacia()) {
-            System.out.println("No hay clientes en la cola");
-        } else {
-            inicio = (inicio + 1) % capacidad;
-            System.out.println("Cliente atendido");
+            System.out.println("Cola llena");
         }
     }
 
     public boolean estaVacia() {
-        return inicio == fin;
+        return clientes.isEmpty();
+    }
+
+    public void atenderCliente() {
+        if (!clientes.isEmpty()) {
+            Cliente cliente = clientes.poll();
+            if (cliente != null) {
+                System.out.println("Atendiendo cliente con prioridad " + cliente.getPrioridad().getValor());
+            }
+        } else {
+            System.out.println("No hay clientes en la cola");
+        }
     }
 }
